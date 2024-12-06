@@ -33,7 +33,7 @@ public class EventBookingServlet extends HttpServlet {
                 .buildExchange(req, resp);
 
         WebContext context = new WebContext(webExchange);
-        context.setVariable("booking", DataHolder.booking);
+        context.setVariable("bookings", DataHolder.bookings);
 
         templateEngine.process("bookingConfirmation.html", context, resp.getWriter());
 
@@ -44,7 +44,6 @@ public class EventBookingServlet extends HttpServlet {
 
         System.out.println(req.getParameter("selectedEvent"));
         eventBookingService.placeBooking(req.getParameter("selectedEvent"), req.getLocalName(), req.getRemoteAddr(),Integer.parseInt(req.getParameter("numTickets")));
-        System.out.println(DataHolder.booking.getNumberOfTickets());
 
         resp.sendRedirect("/eventBooking");
 

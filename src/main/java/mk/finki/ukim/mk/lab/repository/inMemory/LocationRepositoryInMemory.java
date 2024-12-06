@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class LocationRepository {
+public class LocationRepositoryInMemory {
     public List<Location> findAll() {
         return DataHolder.locations;
     }

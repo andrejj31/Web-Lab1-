@@ -27,22 +27,24 @@
                 Your Booking Status
             </th>
         </tr>
-        <tr>
-            <td><b>Attendee Name </b></td>
-            <td th:text="${booking.getAttendeeName()}"></td>
-        </tr>
-        <tr>
-            <td><b>Client IP Address</b></td>
-            <td th:text="${booking.getAttendeeAddress()}"></td>
-        </tr>
-        <tr>
-            <td><b>Booking for Event</b></td>
-            <td th:text="${booking.getEventName()}"></td>
-        </tr>
-        <tr>
-            <td><b>Number of tickets</b></td>
-            <td th:text="${booking.getNumberOfTickets()}"></td>
-        </tr>
+        <th:block th:each="booking : ${bookings}">
+            <tr>
+                <td><b>Attendee Name </b></td>
+                <td th:text="${booking.getAttendeeName()}"></td>
+            </tr>
+            <tr>
+                <td><b>Client IP Address</b></td>
+                <td th:text="${booking.getAttendeeAddress()}"></td>
+            </tr>
+            <tr>
+                <td><b>Booking for Event</b></td>
+                <td th:text="${booking.getEventName()}"></td>
+            </tr>
+            <tr>
+                <td><b>Number of tickets</b></td>
+                <td th:text="${booking.getNumberOfTickets()}"></td>
+            </tr>
+        </th:block>
     </table>
 </section>
 </body>

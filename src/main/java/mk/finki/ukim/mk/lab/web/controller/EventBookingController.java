@@ -20,13 +20,13 @@ public class EventBookingController {
         this.eventBookingService = eventBookingService;
     }
 
-    @GetMapping("/eventBooking")
+    @GetMapping("/bookings")
     public String getBookings(Model model) {
         model.addAttribute("bookings", DataHolder.bookings);
         return "bookingConfirmation";
     }
 
-    @PostMapping("/eventBooking")
+    @PostMapping("/bookings")
     public String placeBooking(@RequestParam String selectedEvent,
                                @RequestParam String numTickets,
                                HttpServletRequest request, // Capture HttpServletRequest to get the remote address and local name
@@ -39,6 +39,6 @@ public class EventBookingController {
 
         eventBookingService.placeBooking(selectedEvent, localName, remoteAddr, Integer.parseInt(numTickets));
 
-        return "redirect:/eventBooking";
+        return "redirect:/bookings";
     }
 }

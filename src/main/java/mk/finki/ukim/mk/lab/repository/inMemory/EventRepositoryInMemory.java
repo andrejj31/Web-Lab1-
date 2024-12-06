@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class EventRepository {
+public class EventRepositoryInMemory {
 
     public List<Event> findAll(){
             return DataHolder.eventsList;

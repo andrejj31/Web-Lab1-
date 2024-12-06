@@ -10,7 +10,7 @@ public class EventBookingServiceImpl implements EventBookingService {
     @Override
     public EventBooking placeBooking(String eventName, String attendeeName, String attendeeAddress, int numberOfTickets) {
         EventBooking newBooking = new EventBooking(eventName,attendeeName,attendeeAddress,numberOfTickets);
-        DataHolder.booking = newBooking;
+        DataHolder.bookings.add(newBooking);
         return newBooking;
     }
 }

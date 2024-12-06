@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Locations page - Welcome</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Locations page</h1>
+</header>
+<main>
+    <a href="/events/">Евенти</a>
+    <a href="/locations/add-form">Додади локација</a>
+    <h2>Locations:</h2>
+    <form>
+        <ul>
+            <li th:each="location: ${locations}">
+                Name: <th:block th:text="${location.getName()}"></th:block>,
+                Address: <th:block th:text="${location.getAddress()}"></th:block>
+                Capacity: <th:block th:text="${location.getCapacity()}"></th:block>
+                Description: <th:block th:text="${location.getDescription()}"></th:block>
+                <a th:href="'/locations/delete/' + ${location.id}">Избриши</a>
+            </li>
+        </ul>
+
+    </form>
+</main>
+</body>
+</html>
