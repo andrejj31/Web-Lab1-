@@ -23,30 +23,50 @@ public class EventController {
 
 
     @GetMapping({"", "/"})
-    public String getEventsPage(@RequestParam(required = false) String search, @RequestParam(required = false) String rating,@RequestParam(required = false) String error, Model model){
+    public String getEventsPage(
+            @RequestParam(required = false) Integer perPage,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String rating,
+            Model model) {
+
+        perPage = (perPage != null) ? perPage : 5;
+        page = (page != null) ? page : 1;
         int ratingInteger = (rating != null && !rating.isEmpty()) ? Integer.parseInt(rating) : 1;
-        System.out.println(ratingInteger);
-        System.out.println(search);
-        if(search != null && !search.isEmpty()) {
+
+        if (search != null && !search.isEmpty()) {
             model.addAttribute("search", search);
             model.addAttribute("searchRating", ratingInteger);
 
-            model.addAttribute("events", eventService.filterByRating(ratingInteger, eventService.searchEvents(search)));
-            System.out.println(eventService.searchEvents(search));
-        }else {
-            model.addAttribute("events", eventService.listAll());
+            List<Event> events = eventService.filterByRating(ratingInteger, eventService.searchEvents(search));
+            int totalEvents = events.size();
+            int totalPages = (int) Math.ceil((double) totalEvents / perPage);
 
+            if (totalEvents > perPage) {
+                events = events.subList((page - 1) * perPage, Math.min(page * perPage, totalEvents));
+            }
+
+            model.addAttribute("events", events);
+            model.addAttribute("pages", totalPages);
+        } else {
+            List<Event> events = eventService.listAll();
+            int totalEvents = events.size();
+            int totalPages = (int) Math.ceil((double) totalEvents / perPage);
+
+            model.addAttribute("events", events.subList((page - 1) * perPage, Math.min(page * perPage, totalEvents)));
+            model.addAttribute("pages", totalPages);
         }
-        System.out.println(eventService.listAll());
+
+        model.addAttribute("perPage", perPage);
         return "listEvents";
     }
-    @GetMapping("/add-form")
+    @GetMapping("/add")
     public String addForm(Model model){
         List<Location> locations = locationService.findAll();
         model.addAttribute("locations", locations);
         return "addEvent";
     }
-    @GetMapping("/edit-form/{id}")
+    @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") long id, Model model) {
         Event event = eventService.findById(id).orElse(null);
         List<Location> locations = locationService.findAll();

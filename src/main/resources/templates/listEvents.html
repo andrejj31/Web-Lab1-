@@ -14,9 +14,9 @@
     <h1>Welcome to our Event Booking App</h1>
 </header>
 <main>
-    <a href="/events/add-form">Додади евент</a>
+    <a href="/events/add">Додади евент</a>
     <a href="/locations/">Локации</a>
-    <form action="/events" method="GET">
+    <form action="/events" method="GET" autocomplete="off">
         <h3>Search for your event: </h3>
         <input type="text" name="search" th:value="${search}">
         <input type="number" name="rating" min="1" max="10" th:value="${searchRating}"><br/>
@@ -31,15 +31,25 @@
             Description: <th:block th:text="${event.getName()}"></th:block>
             Rating: <th:block th:text="${event.getPopularityScore()}"></th:block>
             Location: <th:block th:text="${event.getStringLocation()}"></th:block>
-            <a th:href="'/events/edit-form/' + ${event.id}">Измени</a>
-            <a th:href="'/events/delete/' + ${event.id}">Избриши</a>
+            <th:block sec:authorize="hasRole('ADMIN')">
+                <a th:href="'/events/edit/' + ${event.id}">Измени</a>
+                <a th:href="'/events/delete/' + ${event.id}">Избриши</a>
+            </th:block>
+
         </li>
     </ul>
 
-    <h2>Choose number of tickets:</h2>
+        <ul style="display: inline-block" th:if="${pages > 0}" th:each="i: ${#numbers.sequence(1, pages)}">
+            <a th:href="'?page=' + ${i} + '&perPage=' + ${perPage}" th:text="${i}"></a>
+        </ul>
+        <h2>Choose number of tickets:</h2>
     <input type="number" name="numTickets" min="1" max="10"><br/>
     <br/>
     <input type="submit" value="Submit">
+    </form>
+    <form action="/events" method="GET">
+        <input type="number" th:value="${perPage}" name="perPage">Per page
+        <input type="submit">
     </form>
 </main>
 </body>

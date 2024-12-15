@@ -4,6 +4,8 @@ import jakarta.annotation.PostConstruct;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.EventBooking;
 import mk.finki.ukim.mk.lab.model.Location;
+import mk.finki.ukim.mk.lab.repository.EventRepository;
+import mk.finki.ukim.mk.lab.repository.LocationRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -14,6 +16,14 @@ public class DataHolder {
     public static List<Event> eventsList;
     public static List<EventBooking> bookings;
     public static List<Location> locations;
+    private final EventRepository eventRepository;
+    private final LocationRepository locationRepository;
+
+    public DataHolder(EventRepository eventRepository, LocationRepository locationRepository) {
+        this.eventRepository = eventRepository;
+        this.locationRepository = locationRepository;
+    }
+
     @PostConstruct
     public void init(){
         eventsList = new ArrayList<>();
@@ -37,6 +47,8 @@ public class DataHolder {
         eventsList.add(new Event("Kino", "Prikaz na nov film", 4.1, locations.get(2)));
         eventsList.add(new Event("Muzicki festival", "Festival na pop i rok muzika", 4.4, locations.get(3)));
 
+        locationRepository.saveAll(locations);
+        eventRepository.saveAll(eventsList);
 
 
     }

@@ -32,7 +32,7 @@ public class LocationController {
         return "redirect:/locations/";
     }
 
-    @GetMapping("/add-form")
+    @GetMapping("/add")
     public String addForm(Model model){
         return "addLocation";
     }

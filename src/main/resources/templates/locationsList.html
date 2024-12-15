@@ -15,7 +15,7 @@
 </header>
 <main>
     <a href="/events/">Евенти</a>
-    <a href="/locations/add-form">Додади локација</a>
+    <a href="/locations/add">Додади локација</a>
     <h2>Locations:</h2>
     <form>
         <ul>
@@ -24,7 +24,9 @@
                 Address: <th:block th:text="${location.getAddress()}"></th:block>
                 Capacity: <th:block th:text="${location.getCapacity()}"></th:block>
                 Description: <th:block th:text="${location.getDescription()}"></th:block>
-                <a th:href="'/locations/delete/' + ${location.id}">Избриши</a>
+                <th:block sec:authorize="hasRole('ADMIN')">
+                    <a th:href="'/locations/delete/' + ${location.id}">Избриши</a>
+                </th:block>
             </li>
         </ul>
 
